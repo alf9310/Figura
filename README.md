@@ -2,12 +2,12 @@
 
 <!-- TODO: Add Logo! -->
 <p align="center">
-  <img src="figura_ui.jpg" width="400" alt="Figura UI">
+  <img src="images/figura.gif" width="400" alt="Figura Features Gif">
 </p>
 
 ## Open-source Character Creation and Posing Tool Using Godot
 
-The project provides a flexible framework for building character creators using the **[Godot Engine](https://godotengine.org)**, enabling artists to design customizable characters in familiar tools like **[Blender](https://www.blender.org/)** while allowing developers to quickly integrate those characters into interactive applications. Rather than requiring months of specialized pipeline work, Figura automates much of the technical process required to connect 3D assets with in-engine character customization systems.
+**Figura** provides a flexible framework for building character creators using the **[Godot Engine](https://godotengine.org)**, enabling artists to design customizable characters in familiar tools like **[Blender](https://www.blender.org/)** while allowing developers to quickly integrate those characters into interactive applications. Rather than requiring months of specialized pipeline work, Figura automates much of the technical process required to connect 3D assets with in-engine character customization systems.
 
 <!-- TODO: GHPages Deployment link! -->
 A **[Playable Demo of Figura](#)** is available directly in the browser, allowing anyone to experiment with the character creator and explore its capabilities!
@@ -29,6 +29,9 @@ However, building these systems is technically complex. Figura aims to simplify 
 The project focuses on bridging the gap between **artist workflows** and **game development pipelines**, enabling small teams to divide work more effectively.
 
 <!-- TODO: Character creator image -->
+<p align="center">
+  <img src="images/character_creator.png" width="400" alt="Figura Features Gif">
+</p>
 
 ---
 
