@@ -2,7 +2,7 @@
 
 <!-- TODO: Add Logo! -->
 <p align="center">
-  <img src="images/figura.gif" width="400" alt="Figura Features Gif">
+  <img src="figura.gif" width="400" alt="Figura Features Gif">
 </p>
 
 ## Open-source Character Creation and Posing Tool Using Godot
@@ -30,7 +30,7 @@ The project focuses on bridging the gap between **artist workflows** and **game 
 
 <!-- TODO: Character creator image -->
 <p align="center">
-  <img src="images/character_creator.png" width="400" alt="Figura Features Gif">
+  <img src="character_creator.png" width="400" alt="Figura Features Gif">
 </p>
 
 ---
