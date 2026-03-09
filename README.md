@@ -41,7 +41,7 @@ A live demo is hosted on GitHub Pages.
 
 Try the latest build here:
 <!-- TODO: GHPages Deployment link! -->
-**[Play Figura in your browser](#)**
+**[Play Figura in your browser](https://alf9310.github.io/Figura/)**
 
 The demo allows you to:
 
