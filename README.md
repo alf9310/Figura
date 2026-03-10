@@ -10,7 +10,7 @@
 **Figura** provides a flexible framework for building character creators using the **[Godot Engine](https://godotengine.org)**, enabling artists to design customizable characters in familiar tools like **[Blender](https://www.blender.org/)** while allowing developers to quickly integrate those characters into interactive applications. Rather than requiring months of specialized pipeline work, Figura automates much of the technical process required to connect 3D assets with in-engine character customization systems.
 
 <!-- TODO: GHPages Deployment link! -->
-A **[Playable Demo of Figura](#)** is available directly in the browser, allowing anyone to experiment with the character creator and explore its capabilities!
+A **[Playable Demo of Figura](https://alf9310.github.io/Figura/)** is available directly in the browser, allowing anyone to experiment with the character creator and explore its capabilities!
 
 ---
 
