@@ -1,8 +1,9 @@
 # Figura
 
 <!-- TODO: Add Logo! -->
+
 <p align="center">
-  <img src="figura.gif" width="400" alt="Figura Features Gif">
+  <img src="Figura_icon.svg" width="400" alt="Figura Icon">
 </p>
 
 ## Open-source Character Creation and Posing Tool Using Godot
@@ -15,6 +16,10 @@ A **[Playable Demo of Figura](https://alf9310.github.io/Figura/)** is available 
 ---
 
 ## Overview
+
+<p align="center">
+  <img src="figura.gif" width="400" alt="Figura Features Gif">
+</p>
 
 Character creators are a powerful tool for creative expression. They allow players and artists to explore identity, experiment with design, and create characters across different artistic styles and worlds.
 
