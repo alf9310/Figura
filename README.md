@@ -1,9 +1,7 @@
 # Configura
 
-<!-- TODO: Add Logo! -->
-
 <p align="center">
-  <img src="configura_logo.png" width="400" alt="Figura Icon">
+  <img src="configura_logo.png" width="400" alt="Configura Logo">
 </p>
 
 ## Open-source Character Creation and Posing Tool Using Godot
