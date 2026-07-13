@@ -1,29 +1,26 @@
-# Figura
+# Configura
 
 <!-- TODO: Add Logo! -->
 
 <p align="center">
-  <img src="Figura_icon.svg" width="400" alt="Figura Icon">
+  <img src="configura_logo.png" width="400" alt="Figura Icon">
 </p>
 
 ## Open-source Character Creation and Posing Tool Using Godot
 
-**Figura** provides a flexible framework for building character creators using the **[Godot Engine](https://godotengine.org)**, enabling artists to design customizable characters in familiar tools like **[Blender](https://www.blender.org/)** while allowing developers to quickly integrate those characters into interactive applications. Rather than requiring months of specialized pipeline work, Figura automates much of the technical process required to connect 3D assets with in-engine character customization systems.
-
-<!-- TODO: GHPages Deployment link! -->
-A **[Playable Demo of Figura](https://alf9310.github.io/Figura/)** is available directly in the browser, allowing anyone to experiment with the character creator and explore its capabilities!
+**Configura** provides a flexible framework for building character creators using the **[Godot Engine](https://godotengine.org)**, allowing developers to quickly integrate their 3D model into an interactive character creator. Our plugin automates much of the technical process required to connect 3D assets with in-engine character customization systems.
 
 ---
 
 ## Overview
 
 <p align="center">
-  <img src="figura.gif" width="400" alt="Figura Features Gif">
+  <img src="save_and_load.gif" width="400" alt="save and load gif">
 </p>
 
 Character creators are a powerful tool for creative expression. They allow players and artists to explore identity, experiment with design, and create characters across different artistic styles and worlds.
 
-However, building these systems is technically complex. Figura aims to simplify this process by providing a framework that supports:
+However, building these systems is technically complex. configura aims to simplify this process by providing a framework that supports:
 
 * **Modular character assets** (hair, clothing, accessories, etc.)
 * **Mesh deformation via blendshapes**
@@ -33,45 +30,27 @@ However, building these systems is technically complex. Figura aims to simplify 
 
 The project focuses on bridging the gap between **artist workflows** and **game development pipelines**, enabling small teams to divide work more effectively.
 
-<!-- TODO: Character creator image -->
-<p align="center">
-  <img src="character_creator.png" width="400" alt="Figura Features Gif">
+---
+
+## You are in control
+
+The Configura framework was built with developer/artist control in mind. Through our plugin dock, nearly every part of the final product is customizable to your game's need. By design, the framework is built with no constraints on model anatomy or level of detail, so long as it follows the naming conventions detailed within documentation. 
+<p display="flex" padding="20">
+  <img src="bone_deforms.gif" width="400" alt="deforms gif">
+  <img src="icons.gif" width="400" alt="icons gif">
 </p>
 
 ---
-
-## Play the Demo
-
-A live demo is hosted on GitHub Pages.
-
-Try the latest build here:
-<!-- TODO: GHPages Deployment link! -->
-**[Play Figura in your browser](https://alf9310.github.io/Figura/)**
-
-The demo allows you to:
-
-* Create and customize characters
-* Experiment with character sliders and modular assets
-* Explore the core functionality of the framework
-
----
-
 ## Using the Character Creator in your own Game
 <!-- TODO: Asset library upload! -->
-The character creator framework was designed to be as easy to implement in external games as possible. Simply clone the repository and move into your project, or build off of the demo project template from the [Godot Asset Library](https://godotengine.org/asset-library/asset). Meshes included in the Character Creator are also Free and Open Source. Attribution is appreciated but not required. 
+The character creator framework was designed to be as easy to implement in external games as possible. Simply clone the repository and move into your project, or download it from the new [Godot Asset Store](https://godotengine.org/asset-library/asset).
 
----
-
-## Contributing
-
-Figura is an open project that welcomes contributions from **artists, developers and playtesters**.
+configura is an open project that welcomes contributions from **everyone!**.
 
 ### Uploading 3D Models
 
 <!-- TODO: Add image of Blender file structure -->
-
-Models are split into groupings called **Style Kits**
-**Style Kits** are comparable to **Image Makers** in [Picrew](https://picrew.me/en/), allowing artists to customize how users can modify their characters. They are comprised of modular 3D meshes. 
+Models are split into user-defined groupings, allowing artists to customize how users can modify their characters. They are comprised of modular 3D meshes.
 
 Examples of modular meshes:
 * Hairstyles
@@ -80,16 +59,9 @@ Examples of modular meshes:
 * Body parts (arms, ears, etc.)
 
 For additional customizability, these meshes can include:
-* **Armature Deformations** stored as keyframes (height, limb proportions, etc.)
+* **Armature Deformations** created in Godot (anything that requires the skeleton of the mesh to deform: height, wingspan, bighead mode, etc.)
 * **Mesh Deformations stored** as blendshapes (anything that doesn't change the character's armature: weight, muscluarity, etc.)
-* **Texture Swapping** as multiple images per UV map (skin color, clothing pattern, etc.)
-
-General guidelines:
-* Models should be created in **Blender**
-* Model armature should be created using the [Rigify Add-on](https://docs.blender.org/manual/en/2.81/addons/rigging/rigify.html) basic human armature
-* Follow the project’s naming conventions for assets and blendshapes
-* Maintain compatibility with the base armature if adjusting body porportions
-* Keep topology animation-friendly when possible
+* **Atlas Texture** Swapping as multiple images per UV map (skin color, clothing pattern, etc.)
 
 <!-- TODO: Docs -->
 Detailed asset guidelines will be documented in the `/docs` folder.
@@ -98,7 +70,7 @@ Detailed asset guidelines will be documented in the `/docs` folder.
 
 ### Adding to the Source Code
 
-Developers are welcome to improve or expand the Figura framework!
+Developers are welcome to improve or expand configura!
 
 Typical contributions include:
 
@@ -119,21 +91,6 @@ Please keep code well documented and follow existing project structure where pos
 
 ---
 
-### Playtesting
-
-Playtesting is incredibly valuable.
-
-You can help by:
-
-* Trying the GitHub Pages demo
-* Testing different character combinations
-* Experimenting with sliders and modular assets
-* Checking compatibility across browsers and devices
-
-Feedback helps identify usability issues and prioritize improvements.
-
----
-
 ### Bug Reports
 
 If you encounter a bug:
@@ -145,7 +102,6 @@ If you encounter a bug:
    * Description of the problem
    * Steps to reproduce the issue
    * Screenshots or recordings (if possible)
-   * Browser/OS information
 
 Clear bug reports make it much easier to diagnose problems.
 
@@ -161,7 +117,7 @@ There you can:
 * Share assets or work-in-progress models
 * Coordinate contributions
 * Report issues or suggest features
-* Participate in community playtesting
+* Participate in the community
 
 <!-- TODO: Discord Server Link -->
 **Join the Discord:**
