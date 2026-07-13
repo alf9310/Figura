@@ -20,11 +20,11 @@
 
 Character creators are a powerful tool for creative expression. They allow players and artists to explore identity, experiment with design, and create characters across different artistic styles and worlds.
 
-However, building these systems is technically complex. configura aims to simplify this process by providing a framework that supports:
+However, building these systems is technically complex. Configura aims to simplify this process by providing a framework that supports:
 
 * **Modular character assets** (hair, clothing, accessories, etc.)
 * **Mesh deformation via blendshapes**
-* **Optional skeletal deformation**
+* **Skeletal deformation**
 * **Layered materials and color customization**
 * **Automatic UI generation based on imported mesh data**
 
@@ -45,7 +45,7 @@ The Configura framework was built with developer/artist control in mind. Through
 <!-- TODO: Asset library upload! -->
 The character creator framework was designed to be as easy to implement in external games as possible. Simply clone the repository and move into your project, or download it from the new [Godot Asset Store](https://godotengine.org/asset-library/asset).
 
-configura is an open project that welcomes contributions from **everyone!**.
+Configura is an open project that welcomes contributions from **everyone!**
 
 ### Uploading 3D Models
 
@@ -63,14 +63,11 @@ For additional customizability, these meshes can include:
 * **Mesh Deformations stored** as blendshapes (anything that doesn't change the character's armature: weight, muscluarity, etc.)
 * **Atlas Texture** Swapping as multiple images per UV map (skin color, clothing pattern, etc.)
 
-<!-- TODO: Docs -->
-Detailed asset guidelines will be documented in the `/docs` folder.
-
 ---
 
 ### Adding to the Source Code
 
-Developers are welcome to improve or expand configura!
+Developers are welcome to improve or expand Configura!
 
 Typical contributions include:
 
@@ -109,7 +106,7 @@ Clear bug reports make it much easier to diagnose problems.
 
 ## Community & Communication
 
-The primary place for community discussion, collaboration, and support is the **Figura Discord server**.
+The primary place for community discussion, collaboration, and support is the **Configura Discord server**.
 
 There you can:
 
@@ -121,11 +118,11 @@ There you can:
 
 <!-- TODO: Discord Server Link -->
 **Join the Discord:**
-[Discord Invite Link]
+[[Discord Invite Link]](https://discord.gg/deGZhZTFuE)
 
 ---
 
 ## License
 
 <!-- TODO: Link to license -->
-Figura is completely free and open source under the [MIT license]
+Configura is completely free and open source under the [MIT license]
