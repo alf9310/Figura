@@ -41,7 +41,7 @@ The Configura framework was built with developer/artist control in mind. Through
 ---
 ## Using the Character Creator in your own Game
 <!-- TODO: Asset library upload! -->
-The character creator framework was designed to be as easy to implement in external games as possible. Simply clone the repository and move into your project, or download it from the new [Godot Asset Store](https://godotengine.org/asset-library/asset).
+The character creator framework was designed to be as easy to implement in external games as possible. Simply clone the repository and move into your project, or download it from the new [Godot Asset Store](https://store.godotengine.org/).
 
 Configura is an open project that welcomes contributions from **everyone!**
 
