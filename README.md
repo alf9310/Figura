@@ -116,7 +116,7 @@ There you can:
 
 <!-- TODO: Discord Server Link -->
 **Join the Discord:**
-[[Discord Invite Link]](https://discord.gg/deGZhZTFuE)
+[[Discord Invite Link]](https://discord.gg/jhwYxcMBab)
 
 ---
 
