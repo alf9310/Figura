@@ -61,7 +61,7 @@ For additional customizability, these meshes can include:
 * **Mesh Deformations stored** as blendshapes (anything that doesn't change the character's armature: weight, muscluarity, etc.)
 * **Atlas Texture** Swapping as multiple images per UV map (skin color, clothing pattern, etc.)
 
-For information on how to use Configura, please refer to our [documentation](https://drive.google.com/drive/folders/1-l7AAGhuTMJdZu5t_6p1J7MVei-vuWLx?usp=drive_link)
+For information on how to use Configura, please refer to our [documentation](https://drive.google.com/drive/folders/1-l7AAGhuTMJdZu5t_6p1J7MVei-vuWLx?usp=drive_link).
 
 ---
 
