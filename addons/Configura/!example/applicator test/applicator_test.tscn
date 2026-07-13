@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bq7eufmj8360c"]
+
+[ext_resource type="Script" uid="uid://7rjvo0t0a8mm" path="res://addons/Configura/!example/applicator test/applicator_test.gd" id="1_rpmw7"]
+
+[node name="ApplicatorTest" type="Node3D" unique_id=797159336]
+script = ExtResource("1_rpmw7")

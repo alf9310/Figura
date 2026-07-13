@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://ckl2thksh1siy"]
+
+[ext_resource type="Script" uid="uid://cds07wrpoy6ma" path="res://addons/Configura/runtime/controls/color_row.gd" id="1_780yj"]
+
+[node name="ColorRow" type="HBoxContainer" unique_id=2116090012]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 28.0
+grow_horizontal = 2
+script = ExtResource("1_780yj")
+
+[node name="OptionLabel" type="Label" parent="." unique_id=405601006]
+layout_mode = 2
+text = "Color"
+
+[node name="ColorPicker" type="ColorPickerButton" parent="." unique_id=352770505]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+edit_alpha = false

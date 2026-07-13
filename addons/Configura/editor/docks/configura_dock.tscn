@@ -1,0 +1,380 @@
+[gd_scene format=3 uid="uid://bu665b5nxjh28"]
+
+[ext_resource type="Theme" uid="uid://bh0jhi0se4pxe" path="res://addons/Configura/icons/DockTheme.tres" id="1_i6v3f"]
+[ext_resource type="Script" uid="uid://twj0ujvtbrk3" path="res://addons/Configura/editor/docks/configura_dock.gd" id="2_nr3of"]
+[ext_resource type="Texture2D" uid="uid://cny8gxw0xfj4y" path="res://addons/Configura/icons/Clear.svg" id="2_rfsp0"]
+[ext_resource type="Script" uid="uid://q0xmwi4y1iqk" path="res://addons/Configura/editor/tool scripts/resource_picker.gd" id="2_um6mk"]
+[ext_resource type="Texture2D" uid="uid://dirv2hjq54gb1" path="res://addons/Configura/icons/configlogo.svg" id="3_ekklj"]
+[ext_resource type="StyleBox" uid="uid://vf2o0rrn4285" path="res://addons/Configura/icons/Input.tres" id="5_nwigx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwigx"]
+bg_color = Color(0.25882354, 0.25882354, 0.25882354, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ekklj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fvdnw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i54x7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ekklj"]
+bg_color = Color(0.105882354, 0.105882354, 0.105882354, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Configura" type="Control" unique_id=2138938875]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_i6v3f")
+script = ExtResource("2_nr3of")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1620925702]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.99, 0.99)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+theme_override_constants/margin_left = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2060729418]
+layout_mode = 2
+
+[node name="CharacterCreatorDockPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1157606103]
+custom_minimum_size = Vector2(0, 50.845)
+layout_mode = 2
+size_flags_stretch_ratio = 0.25
+theme = ExtResource("1_i6v3f")
+theme_override_styles/panel = SubResource("StyleBoxFlat_nwigx")
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/CharacterCreatorDockPanel" unique_id=851376345]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ekklj")
+
+[node name="CharacterCreatorDockLabel" type="Label" parent="MarginContainer/VBoxContainer/CharacterCreatorDockPanel/PanelContainer" unique_id=1731423414]
+custom_minimum_size = Vector2(217.535, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_fvdnw")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_i54x7")
+text = "Configura"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/CharacterCreatorDockPanel/PanelContainer" unique_id=2003025866]
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("3_ekklj")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer/VBoxContainer" unique_id=667986582]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2" unique_id=525340176]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StatusLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=183988912]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="CharacterSceneContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=2063283345]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="CharacterSceneLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/CharacterSceneContainer" unique_id=1965017347]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Character Scene"
+
+[node name="SceneInputContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/CharacterSceneContainer" unique_id=1585430213]
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_ekklj")
+
+[node name="CharacterResourcePicker" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/CharacterSceneContainer/SceneInputContainer" unique_id=1661365820]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+script = ExtResource("2_um6mk")
+picker_type = "PackedScene"
+min_size = Vector2(0, 50)
+
+[node name="OutputContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=531757179]
+layout_mode = 2
+
+[node name="OutputPathLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/OutputContainer" unique_id=924531442]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Output Path"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/OutputContainer" unique_id=177616504]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="OutputPath" type="LineEdit" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/OutputContainer/HBoxContainer" unique_id=1969986210]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_i6v3f")
+theme_override_styles/read_only = ExtResource("5_nwigx")
+placeholder_text = "res://character_creator"
+editable = false
+
+[node name="LoadOutputButton" type="Button" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/OutputContainer/HBoxContainer" unique_id=60824337]
+layout_mode = 2
+text = "Load"
+
+[node name="ClearOutputButton" type="Button" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/OutputContainer/HBoxContainer" unique_id=157638847]
+layout_mode = 2
+icon = ExtResource("2_rfsp0")
+flat = true
+
+[node name="OutputDialog" type="FileDialog" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/OutputContainer/HBoxContainer" unique_id=1838578178]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Open a Directory"
+initial_position = 2
+file_mode = 2
+filters = PackedStringArray("*.tscn")
+
+[node name="Confirm_Button" type="Button" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=697135750]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Confirm & Load"
+
+[node name="SettingsPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=1594840688]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_stretch_ratio = 0.25
+theme = ExtResource("1_i6v3f")
+
+[node name="SettingsLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/SettingsPanel" unique_id=1545664772]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SceneSettingsFoldableContainer" type="FoldableContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=2102892058]
+layout_mode = 2
+title = "Scene Settings"
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/SceneSettingsFoldableContainer" unique_id=241433560]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/SceneSettingsFoldableContainer/MarginContainer" unique_id=989281449]
+layout_mode = 2
+
+[node name="SaveStateContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/SceneSettingsFoldableContainer/MarginContainer/VBoxContainer" unique_id=1975071905]
+layout_mode = 2
+
+[node name="SaveStateLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/SceneSettingsFoldableContainer/MarginContainer/VBoxContainer/SaveStateContainer" unique_id=678518135]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Save State On Confirm"
+
+[node name="SaveStatePanel" type="Panel" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/SceneSettingsFoldableContainer/MarginContainer/VBoxContainer/SaveStateContainer" unique_id=2142829450]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_styles/panel = ExtResource("5_nwigx")
+
+[node name="SaveState" type="CheckBox" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/SceneSettingsFoldableContainer/MarginContainer/VBoxContainer/SaveStateContainer/SaveStatePanel" unique_id=1269071671]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+button_pressed = true
+text = "On"
+
+[node name="AllowRandomizeContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/SceneSettingsFoldableContainer/MarginContainer/VBoxContainer" unique_id=1865674865]
+layout_mode = 2
+
+[node name="AllowRandomizeLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/SceneSettingsFoldableContainer/MarginContainer/VBoxContainer/AllowRandomizeContainer" unique_id=1846379251]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Allow Randomize"
+
+[node name="AllowRandomizePanel" type="Panel" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/SceneSettingsFoldableContainer/MarginContainer/VBoxContainer/AllowRandomizeContainer" unique_id=1985516784]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_styles/panel = ExtResource("5_nwigx")
+
+[node name="AllowRandomize" type="CheckBox" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/SceneSettingsFoldableContainer/MarginContainer/VBoxContainer/AllowRandomizeContainer/AllowRandomizePanel" unique_id=730512277]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+button_pressed = true
+text = "On"
+
+[node name="ThemeContainer" type="FoldableContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=785835089]
+layout_mode = 2
+theme = ExtResource("1_i6v3f")
+title = "Theme"
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer" unique_id=1007602296]
+layout_mode = 2
+theme = ExtResource("1_i6v3f")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer" unique_id=1963125328]
+layout_mode = 2
+
+[node name="ThemeResourceContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer" unique_id=1503621445]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemeResourceContainer" unique_id=525468810]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Theme"
+
+[node name="ThemePickerContainer2" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemeResourceContainer" unique_id=830982211]
+unique_name_in_owner = true
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_ekklj")
+
+[node name="ThemeResourcePicker" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/ThemeResourceContainer/ThemePickerContainer2" unique_id=1938651265]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+script = ExtResource("2_um6mk")
+picker_type = "Theme"
+min_size = Vector2(0, 50)
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer" unique_id=1085558413]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=2065945324]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Skybox Shader"
+
+[node name="SkyboxPickerContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=651914273]
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_ekklj")
+
+[node name="SkyboxResourcePicker" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/HBoxContainer2/SkyboxPickerContainer" unique_id=1507146804]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+script = ExtResource("2_um6mk")
+picker_type = "ShaderMaterial"
+min_size = Vector2(0, 50)
+
+[node name="OptionsPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=452393196]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_stretch_ratio = 0.25
+theme = ExtResource("1_i6v3f")
+
+[node name="OptionsLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/OptionsPanel" unique_id=2140206175]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Options"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionsContext" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=1721964603]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.5152084, 0.51520807, 0.51520824, 1)
+text = "Options will populate once \"Confirm & Load\" is pressed."
+
+[node name="BoneDeformsContainer" type="FoldableContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=111111001]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+title = "Bone Deforms"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/BoneDeformsContainer" unique_id=111111002]
+layout_mode = 2
+
+[node name="DeformList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/BoneDeformsContainer/VBoxContainer" unique_id=111111003]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AddDeformButton" type="Button" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/BoneDeformsContainer/VBoxContainer" unique_id=111111004]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Add Bone Deform"
+
+[node name="CategoriesList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=2123009137]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="GenerateButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1745147907]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Generate Scene"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/OutputContainer/HBoxContainer/LoadOutputButton" to="." method="_on_output_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/OutputContainer/HBoxContainer/ClearOutputButton" to="." method="_on_clear_output_button_pressed"]
+[connection signal="dir_selected" from="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/OutputContainer/HBoxContainer/OutputDialog" to="." method="_on_output_dialog_dir_selected"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/Confirm_Button" to="." method="_on_confirm_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/BoneDeformsContainer/VBoxContainer/AddDeformButton" to="." method="_on_add_deform_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/GenerateButton" to="." method="_on_generate_button_pressed"]

@@ -1,0 +1,13 @@
+[gd_resource type="Environment" format=3 uid="uid://c3oeyya6rgnd"]
+
+[ext_resource type="Material" uid="uid://tnqgxyx343tw" path="res://addons/Configura/!example/themes/background_default.tres" id="1_qdfma"]
+
+[sub_resource type="Sky" id="Sky_fhqdk"]
+sky_material = ExtResource("1_qdfma")
+
+[resource]
+background_mode = 2
+background_color = Color(0.46502316, 0.72029567, 0.8634698, 1)
+sky = SubResource("Sky_fhqdk")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)

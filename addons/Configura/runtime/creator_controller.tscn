@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://co66shy3kgeot"]
+
+[ext_resource type="Script" uid="uid://e5057q7jrfvo" path="res://addons/Configura/runtime/creator_controller.gd" id="1_ea10n"]
+
+[node name="CharacterCreator" type="Node" unique_id=1343445111]
+script = ExtResource("1_ea10n")

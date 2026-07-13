@@ -1,0 +1,17 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+	<defs>
+		<image  width="180" height="180" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0AQMAAAAHA5RxAAAAAXNSR0IB2cksfwAAAANQTFRF7+/v7Je6jQAAACZJREFUeJztyDENAAAMA6DVv+kZqIEmcJLr4r333nvvvffeez/yDwhqALVdI8eZAAAAAElFTkSuQmCC"/>
+	</defs>
+	<style>
+		tspan { white-space:pre } 
+		.s0 { fill: #000000 } 
+		.t1 { font-size: 63px;fill: #ffffff;font-weight: 400;font-family: "DejaVuSans", "DejaVu Sans" } 
+	</style>
+	<use id="Background" href="#img1" x="0" y="0"/>
+	<path id="Shape 1" fill-rule="evenodd" class="s0" d="m90 128c-21.01 0-38-16.99-38-38 0-21.01 16.99-38 38-38 21.01 0 38 16.99 38 38 0 21.01-16.99 38-38 38z"/>
+	<path id="Shape 2" fill-rule="evenodd" class="s0" d="m90 224c-39.26 0-71-19.67-71-44 0-24.33 31.74-44 71-44 39.26 0 71 19.67 71 44 0 24.33-31.74 44-71 44z"/>
+	<text id="?" transform="translate(75,113)">
+		<tspan x="0" y="0" class="t1">?
+</tspan>
+	</text>
+</svg>

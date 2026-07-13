@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cqrkyqotmcdvh"]
+
+[ext_resource type="Script" uid="uid://ctohacq7g2cnu" path="res://addons/Configura/runtime/controls/anim_row.gd" id="1_nxb5u"]
+
+[node name="AnimRow" type="HBoxContainer" unique_id=953496883]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+script = ExtResource("1_nxb5u")
+
+[node name="OptionLabel" type="Label" parent="." unique_id=987546994]
+layout_mode = 2
+text = "Option"
+
+[node name="PreviewButton" type="Button" parent="." unique_id=497400703]
+layout_mode = 2
+text = "Preview?"

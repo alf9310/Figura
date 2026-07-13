@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://6dgu7au3kl18"]
+
+[ext_resource type="Script" uid="uid://diyugg21tehn7" path="res://addons/Configura/runtime/controls/swap_group.gd" id="1_w10oh"]
+
+[node name="SwapGroup" type="VBoxContainer" unique_id=1745927510]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_w10oh")
+
+[node name="OptionLabel" type="Label" parent="." unique_id=1722370037]
+visible = false
+layout_mode = 2
+text = "Option"
+
+[node name="ButtonContainer" type="HFlowContainer" parent="." unique_id=357389565]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 4

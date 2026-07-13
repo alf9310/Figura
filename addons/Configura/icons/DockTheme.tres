@@ -1,0 +1,18 @@
+[gd_resource type="Theme" format=3 uid="uid://bh0jhi0se4pxe"]
+
+[ext_resource type="StyleBox" uid="uid://bpacdvmxttun4" path="res://addons/Configura/icons/Background.tres" id="1_eftxb"]
+[ext_resource type="StyleBox" uid="uid://vf2o0rrn4285" path="res://addons/Configura/icons/Input.tres" id="2_d8rel"]
+[ext_resource type="StyleBox" uid="uid://v5byusjm1erm" path="res://addons/Configura/icons/SectionLabel.tres" id="3_d8rel"]
+
+[resource]
+FoldableContainer/colors/font_color = Color(0.7882353, 0.7882353, 0.7882353, 1)
+FoldableContainer/colors/hover_font_color = Color(0.9372549, 0.9372549, 0.9372549, 1)
+FoldableContainer/styles/focus = ExtResource("1_eftxb")
+FoldableContainer/styles/panel = ExtResource("1_eftxb")
+FoldableContainer/styles/title_collapsed_hover_panel = ExtResource("1_eftxb")
+FoldableContainer/styles/title_collapsed_panel = ExtResource("1_eftxb")
+FoldableContainer/styles/title_hover_panel = ExtResource("1_eftxb")
+FoldableContainer/styles/title_panel = ExtResource("1_eftxb")
+LineEdit/styles/normal = ExtResource("2_d8rel")
+MarginContainer/constants/margin_left = 10
+PanelContainer/styles/panel = ExtResource("3_d8rel")

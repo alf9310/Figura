@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://bmy5gtnptuk7p"]
+
+[ext_resource type="Script" uid="uid://c40rxpwkdei3i" path="res://addons/Configura/editor/docks/group_container.gd" id="1_4f1wf"]
+[ext_resource type="StyleBox" uid="uid://vf2o0rrn4285" path="res://addons/Configura/icons/Input.tres" id="2_2nw84"]
+
+[node name="VBoxContainer" type="VBoxContainer" unique_id=1997672877]
+offset_right = 119.0
+offset_bottom = 136.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+script = ExtResource("1_4f1wf")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1964662628]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer2" unique_id=1036692484]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Display Name"
+
+[node name="GroupField" type="LineEdit" parent="HBoxContainer2" unique_id=1338820606]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Group"
+expand_to_text_length = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=766538151]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=2117313185]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Show"
+
+[node name="ShowPanel" type="Panel" parent="HBoxContainer" unique_id=1187659004]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("2_2nw84")
+
+[node name="IncludeGroup" type="CheckBox" parent="HBoxContainer/ShowPanel" unique_id=1321601424]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 51.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+button_pressed = true
+text = "On"
+
+[node name="RequiredRow" type="HBoxContainer" parent="." unique_id=72784116]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="RequiredRow" unique_id=562404544]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Required"
+
+[node name="RequiredPanel" type="Panel" parent="RequiredRow" unique_id=147988709]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("2_2nw84")
+
+[node name="Required" type="CheckBox" parent="RequiredRow/RequiredPanel" unique_id=1615635942]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 51.0
+offset_bottom = 31.0
+button_pressed = true
+text = "On
+"
+
+[node name="DefaultRow" type="HBoxContainer" parent="." unique_id=1277325304]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="DefaultRow" unique_id=222275588]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Default"
+
+[node name="DefaultOptions" type="OptionButton" parent="DefaultRow" unique_id=1398908238]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OptionRowContainer" type="VBoxContainer" parent="." unique_id=196323758]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="toggled" from="HBoxContainer/ShowPanel/IncludeGroup" to="." method="_on_include_group_toggled"]
+[connection signal="toggled" from="RequiredRow/RequiredPanel/Required" to="." method="_on_required_toggled"]
+[connection signal="item_selected" from="DefaultRow/DefaultOptions" to="." method="_on_default_options_item_selected"]

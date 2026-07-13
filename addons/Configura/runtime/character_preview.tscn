@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://bn8lg7qd5wx63"]
+
+[ext_resource type="Script" uid="uid://dw4ticq08ga4c" path="res://addons/Configura/runtime/character_preview.gd" id="1_ynnn8"]
+[ext_resource type="Environment" uid="uid://c3oeyya6rgnd" path="res://addons/Configura/!example/themes/environment.tres" id="2_fhqdk"]
+
+[node name="CharacterPreview" type="SubViewportContainer" unique_id=1262837080]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+script = ExtResource("1_ynnn8")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1316669584]
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(1152, 648)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="CameraRig" type="Node3D" parent="SubViewport" unique_id=980729709]
+
+[node name="CameraPivot" type="Node3D" parent="SubViewport/CameraRig" unique_id=779138876]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport/CameraRig/CameraPivot" unique_id=198185314]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+fov = 50.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport" unique_id=881884232]
+environment = ExtResource("2_fhqdk")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="SubViewport" unique_id=1019911162]
+transform = Transform3D(0.70710677, 0.4055798, -0.579228, 0, 0.81915206, 0.57357645, 0.70710677, -0.4055798, 0.579228, 0, 0, 0)
+light_color = Color(1, 0.98669523, 0.9639762, 1)
+light_energy = 1.2
+shadow_blur = 2.0
+
+[node name="FillLight" type="DirectionalLight3D" parent="SubViewport" unique_id=220680306]
+transform = Transform3D(-0.70710677, -0.1830127, 0.68301266, 0, 0.9659258, 0.25881904, -0.70710677, 0.1830127, -0.68301266, 0, 0, 0)
+light_color = Color(0.9452769, 0.96857667, 1, 1)
+light_energy = 0.4

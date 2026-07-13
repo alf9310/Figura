@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://41ctmp1kblto"]
+
+[ext_resource type="Script" uid="uid://dbwknm60742d3" path="res://addons/Configura/editor/docks/option_row.gd" id="1_jk0xb"]
+[ext_resource type="Theme" uid="uid://bh0jhi0se4pxe" path="res://addons/Configura/icons/DockTheme.tres" id="2_b4w3q"]
+[ext_resource type="Script" uid="uid://q0xmwi4y1iqk" path="res://addons/Configura/editor/tool scripts/resource_picker.gd" id="2_pd845"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pd845"]
+bg_color = Color(0.105882354, 0.105882354, 0.105882354, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="MarginContainer" type="MarginContainer" unique_id=681801093]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_b4w3q")
+script = ExtResource("1_jk0xb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=918881848]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer" unique_id=1631994718]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="IncludeOption" type="CheckBox" parent="HBoxContainer/HBoxContainer" unique_id=1892359729]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+
+[node name="DisplayName" type="LineEdit" parent="HBoxContainer/HBoxContainer" unique_id=2011359564]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+placeholder_text = "Display Name"
+expand_to_text_length = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer" unique_id=1425015420]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="IconLabel" type="Label" parent="HBoxContainer/HBoxContainer2" unique_id=593579361]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Icon"
+
+[node name="InputContainer" type="PanelContainer" parent="HBoxContainer/HBoxContainer2" unique_id=1092469231]
+unique_name_in_owner = true
+visible = false
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_pd845")
+
+[node name="IconResourceContainer" type="HBoxContainer" parent="HBoxContainer/HBoxContainer2/InputContainer" unique_id=1182421653]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+script = ExtResource("2_pd845")
+picker_type = "Texture2D"
+min_size = Vector2(0, 50)
+
+[node name="ColorPicker" type="ColorPickerButton" parent="HBoxContainer/HBoxContainer2" unique_id=831343465]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3

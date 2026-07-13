@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cm05nug750ydf"]
+
+[ext_resource type="Script" uid="uid://ciff6k4d3wd5m" path="res://addons/Configura/runtime/controls/slider_row.gd" id="1_eecjx"]
+
+[node name="SliderRow" type="HBoxContainer" unique_id=830835319]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+script = ExtResource("1_eecjx")
+
+[node name="OptionLabel" type="Label" parent="." unique_id=1880758595]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Option"
+
+[node name="Slider" type="HSlider" parent="." unique_id=967030837]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+
+[node name="Readout" type="Label" parent="." unique_id=1772807954]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+text = "0.00"
+horizontal_alignment = 2
