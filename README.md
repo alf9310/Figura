@@ -4,7 +4,7 @@
   <img src="configura_logo.png" width="400" alt="Configura Logo">
 </p>
 
-## Open-source Character Creation and Posing Tool Using Godot
+## Open-Source Character Creator Creation Tool in Godot
 
 **Configura** provides a flexible framework for building character creators using the **[Godot Engine](https://godotengine.org)**, allowing developers to quickly integrate their 3D model into an interactive character creator. Our plugin automates much of the technical process required to connect 3D assets with in-engine character customization systems.
 
