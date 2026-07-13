@@ -64,6 +64,13 @@ For additional customizability, these meshes can include:
 For information on how to use Configura, please refer to our [documentation](https://drive.google.com/drive/folders/1-l7AAGhuTMJdZu5t_6p1J7MVei-vuWLx?usp=drive_link).
 
 ---
+### Documentation
+* [Documentation Folder](https://drive.google.com/drive/folders/1-l7AAGhuTMJdZu5t_6p1J7MVei-vuWLx?usp=drive_link)
+* For information on creating your 3D model(s), refer to [Artist Documentation](https://docs.google.com/document/d/1GYr33zAv79D-n_aid2mKaFaGEvylca8yKrAhH9oYE2c/edit?usp=sharing)
+* For information on uploading your 3D model(s) and creating the character creator scene, refer to [Developer Documentation](https://docs.google.com/document/d/18e3JenWjVS0cHOxaPleWwfa-QKHvBhy-FnsVBV9CWu4/edit?usp=sharing)
+* For a more detailed description of under-the-hood scripts, refer to [Internal Documentation](https://docs.google.com/document/d/1iWOP9pb7c7e-iOMeYIoo6CUO8fcMWdDgYTMIAMEr2e8/edit?usp=sharing)
+
+---
 
 ### Adding to the Source Code
 
