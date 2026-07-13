@@ -82,7 +82,7 @@ To contribute code:
 3. Implement your changes
 4. Submit a pull request with a clear description
 
-Please keep code well documented and follow existing project structure where possible.
+Please keep code well-documented and follow existing project structure where possible.
 
 ---
 
