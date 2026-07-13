@@ -115,8 +115,7 @@ There you can:
 * Participate in the community
 
 <!-- TODO: Discord Server Link -->
-**Join the Discord:**
-[[Discord Invite Link]](https://discord.gg/jhwYxcMBab)
+**Join the Discord:**(https://discord.gg/jhwYxcMBab)
 
 ---
 
