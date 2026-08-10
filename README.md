@@ -30,7 +30,8 @@ The project focuses on bridging the gap between **artist workflows** and **game 
 
 ---
 ## Updates
-In v1.1, we added:
+### v1.1 (08/10/2026)
+The following features were added:
 * Color swatches
 * Dynamic camera movement
 * Character name saving and loading
