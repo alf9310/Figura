@@ -33,15 +33,17 @@ The project focuses on bridging the gap between **artist workflows** and **game 
 ### v1.1 (08/10/2026)
 The following features were added:
 * Color swatches
-<p align="center">
+<p>
   <img src="/README Media/ColorSwatches.gif" width="400" alt="color swatches gif">
 </p>
+
 * Dynamic camera movement
-<p align="center">
+<p>
   <img src="/README Media/CameraMovement.gif" width="400" alt="camera movement gif">
 </p>
+
 * Character name saving and loading
-<p align="center">
+<p>
   <img src="/README Media/NameSaveLoad.gif" width="400" alt="name save and load gif">
 </p>
 ---
