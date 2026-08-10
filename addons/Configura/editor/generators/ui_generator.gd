@@ -11,7 +11,6 @@ const SWAP_GROUP_SCENE  := preload("res://addons/Configura/runtime/controls/swap
 const COLOR_ROW_SCENE   := preload("res://addons/Configura/runtime/controls/color_row.tscn")
 const ANIM_ROW_SCENE  := preload("res://addons/Configura/runtime/controls/anim_row.tscn")
 
-
 ## Entry point. Called by SceneGenerator with:
 ## ui: 			the CreatorUI VBoxContainer node already added to the scene tree
 ## options:		the finalised Array[OptionDefinition] from CharacterConfig
@@ -22,18 +21,20 @@ func build(
 		options: Array[OptionDefinition],
 		scene_root: Node,
 		theme: Theme,
-		randomize_option: bool) -> void:
+		randomize_option: bool,
+		color_swatch_palette: ColorSwatchPalette = null) -> void:
 	
 	ui.theme = theme
 	
-	_build_tabs(ui, options, scene_root)
+	_build_tabs(ui, options, scene_root, color_swatch_palette)
 	_build_footer(ui, scene_root,randomize_option)
 
 ## --- Tab structure --- 
 func _build_tabs(
 		ui: VBoxContainer,
 		options: Array[OptionDefinition],
-		scene_root: Node) -> void:
+		scene_root: Node,
+		color_swatch_palette: ColorSwatchPalette) -> void:
 	
 	var tabs := TabContainer.new()
 	tabs.name                  = "Tabs"
@@ -56,13 +57,14 @@ func _build_tabs(
 	
 	for group_name in group_order:
 		print("Building tab for group ", group_name)
-		_build_tab(tabs, group_name, grouped[group_name], scene_root)
+		_build_tab(tabs, group_name, grouped[group_name], scene_root, color_swatch_palette)
 
 func _build_tab(
 		tabs: TabContainer,
 		group_name: String,
 		options: Array,
-		scene_root: Node) -> void:
+		scene_root: Node,
+		color_swatch_palette: ColorSwatchPalette) -> void:
 	var scroll := ScrollContainer.new()
 	scroll.name                   = group_name
 	scroll.size_flags_vertical    = Control.SIZE_EXPAND_FILL
@@ -90,7 +92,7 @@ func _build_tab(
 	
 	var anim_button_group := ButtonGroup.new()
 	for opt in options:
-		var control := _build_control(opt, scene_root, anim_button_group)
+		var control := _build_control(opt, scene_root, anim_button_group, color_swatch_palette)
 		if control == null:
 			continue
 		vbox.add_child(control)
@@ -114,7 +116,8 @@ func _set_owners(node: Node, scene_root: Node) -> void:
 func _build_control(
 		opt: OptionDefinition,
 		scene_root: Node,
-		anim_button_group: ButtonGroup = null) -> Control:
+		anim_button_group: ButtonGroup = null,
+		color_swatch_palette: ColorSwatchPalette = null) -> Control:
 	if opt.get("include") != null and not opt.include:
 		return null
 	if opt is MeshSwapOption:
@@ -122,7 +125,7 @@ func _build_control(
 	if opt is BlendshapeOption:
 		return _build_slider_row(opt as BlendshapeOption)
 	if opt is ColorOption:
-		return _build_color_row(opt as ColorOption)
+		return _build_color_row(opt as ColorOption, color_swatch_palette)
 	if opt is AnimationOption:
 		return _build_anim_row(opt as AnimationOption, anim_button_group)
 	if opt is DeformOption:
@@ -178,15 +181,85 @@ func _build_swap_group(opt: MeshSwapOption, scene_root: Node) -> SwapGroup:
 	return group
 
 ## Builds a color option
-func _build_color_row(opt: ColorOption) -> ColorRow:
+func _build_color_row(opt: ColorOption, color_swatch_palette: ColorSwatchPalette) -> ColorRow:
 	var row := COLOR_ROW_SCENE.instantiate() as ColorRow
 	row.name      = "ColorRow_" + opt.resource_name
 	row.option_id = opt.resource_name
 
 	row.find_child("OptionLabel", true, false).text  = opt.display_name
-	row.find_child("ColorPicker", true, false).color = opt.default_color
+	
+	var picker := row.find_child("ColorPicker", true, false) as ColorPickerButton
+	picker.color = opt.default_color
+	
+	var swatch_container := row.find_child("SwatchContainer", true, false) as HFlowContainer
+
+	var show_swatches := opt.display_mode != ColorOption.DisplayMode.PICKER
+	var show_picker   := opt.display_mode != ColorOption.DisplayMode.SWATCHES
+
+	picker.visible = show_picker
+
+	if show_swatches:
+		if color_swatch_palette == null or color_swatch_palette.colors.is_empty():
+			push_warning(
+				"[UIGenerator] ColorOption '%s' requests swatches but no palette (or an empty one) is assigned — falling back to picker only."
+				% opt.display_name
+			)
+			picker.visible = true
+			swatch_container.visible = false
+		else:
+			swatch_container.visible = true
+			_populate_swatches(swatch_container, opt, color_swatch_palette, row)
+	else:
+		swatch_container.visible = false
 
 	return row
+	
+func _populate_swatches(
+		container: HFlowContainer,
+		opt: ColorOption,
+		palette: ColorSwatchPalette,
+		row: ColorRow) -> void:
+	var swatch_group := ButtonGroup.new()
+	var default_index := palette.colors.find(opt.default_color)
+
+	for i in range(palette.colors.size()):
+		var color: Color = palette.colors[i]
+		var btn := _make_swatch_button(color, opt.swatch_icon)
+		btn.name = "Swatch_%d" % i
+		btn.button_group = swatch_group
+		btn.button_pressed = (i == default_index)
+		btn.set_meta("swatch_color", color)
+		container.add_child(btn)
+		
+func _make_swatch_button(color: Color, icon: Texture2D) -> Button:
+	var btn:= Button.new()
+	btn.toggle_mode = true
+	btn.custom_minimum_size = Vector2(32, 32)
+	btn.icon = icon
+	if icon:
+		btn.expand_icon = true
+		for name in [
+			"icon_disabled_color",
+			"icon_focused_color",
+			"icon_hover_color",
+			"icon_hover_pressed_color",
+			"icon_normal_color",
+			"icon_pressed_color"
+		]:
+			btn.add_theme_color_override(name, color)
+	for state in ["normal", "hover", "pressed", "focus"]:
+		var style := StyleBoxFlat.new()
+		if icon: 
+			style.bg_color = Color(0,0,0,0)
+		else:
+			style.bg_color = color
+		style.set_corner_radius_all(4)
+		if state == "pressed" or state == "focus":
+			style.set_border_width_all(2)
+			style.border_color = Color.WHITE
+		btn.add_theme_stylebox_override(state, style)
+
+	return btn
 
 func _build_anim_row(opt: AnimationOption, button_group: ButtonGroup) -> AnimRow:
 	var row := ANIM_ROW_SCENE.instantiate() as AnimRow

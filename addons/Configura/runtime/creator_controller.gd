@@ -16,6 +16,7 @@ signal character_cancelled()
 @export var manager: CreatorManager
 @export var preview:  CharacterPreview
 @export var loader:   CharacterLoader
+@export var overlay: CharacterNameSaver
 
 enum CompatResult { 
 	COMPAT_FULL, 
@@ -30,11 +31,14 @@ func _ready() -> void:
 	preview._add_skybox_shader(config.skybox_resource)
 	ui.option_changed.connect(manager.apply_option)
 	
+	#overlay.confirm_pressed.connect()
+	
 	# Footer actions
 	ui.save_pressed.connect(_on_save)
 	ui.load_pressed.connect(_on_toggle)
 	loader.back_pressed.connect(_on_toggle)
 	loader.character_selected.connect(_on_load)
+	
 	# Randomize buttons
 	if config.allow_randomize:
 		ui.randomize_pressed.connect(_on_randomize)
@@ -50,6 +54,9 @@ func _ready() -> void:
 
 ## Create a file dialogue pop-up for the user the save the character to their local data
 func _on_save() -> void:
+	overlay.visible = true
+	var name:String = await overlay.confirm_pressed
+	overlay.visible = false
 	var state: CharacterState = manager.get_current_state()
 	var save_path :String
 	
@@ -69,11 +76,20 @@ func _on_save() -> void:
 	var count:int = get_file_count(char_path)
 	if count == null or count == 0:
 		save_path = char_path +"character.tres"
-		state.metadata["name"] = "character"
+		#state.metadata["name"] = "character"
 	else:
 		save_path = char_path +"character_%s.tres" % [count]
+		#state.metadata["name"] = "character_%s" % [count]
+	
+	
+	if name == "":
 		state.metadata["name"] = "character_%s" % [count]
-
+	else:
+		state.metadata["name"] = name 
+		
+	
+	
+		
 	var err := ResourceSaver.save(state,save_path)
 	if err != OK:
 		push_warning("[CharacterCreator] Failed to save state to %s: %d" % [save_path, err])

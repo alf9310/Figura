@@ -31,7 +31,7 @@ func get_mesh_paths() -> Array[NodePath]:
 func get_surface_index() -> int:
 	return -1
 
-func apply_to_preview(manager: CreatorManager, value: Variant, force_full_pass: bool = false) -> void:
+func apply_to_preview(manager: CreatorManager, value: Variant, should_camera_focus: bool = false, force_full_pass: bool = false) -> void:
 	pass
 
 func apply_to_character(character_root: Node, skeleton: Node, value: Variant) -> void:

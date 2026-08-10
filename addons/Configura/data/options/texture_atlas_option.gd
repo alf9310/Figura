@@ -43,8 +43,8 @@ func get_mesh_paths() -> Array[NodePath]:
 func get_surface_index() -> int:
 	return surface_index
 
-func apply_to_preview(manager: CreatorManager, value: Variant, force_full_pass: bool = false) -> void:
-	manager._apply_texture_atlas(self, value as int)
+func apply_to_preview(manager: CreatorManager, value: Variant, should_camera_focus: bool = false, force_full_pass: bool = false) -> void:
+	manager._apply_texture_atlas(self, value as int, should_camera_focus)
 
 func get_editor_groups() -> Array[String]:
 	if editor_groups.is_empty():

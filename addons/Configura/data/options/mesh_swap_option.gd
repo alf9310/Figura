@@ -23,7 +23,7 @@ func get_random_value() -> Variant:
 		return -1
 	return randi() % choices.size()
 
-func apply_to_preview(manager: CreatorManager, value: Variant, force_full_pass: bool = false) -> void:
+func apply_to_preview(manager: CreatorManager, value: Variant, should_camera_focus: bool = false, force_full_pass: bool = false) -> void:
 	manager._apply_swap(self, value as int, force_full_pass)
 
 func get_editor_groups() -> Array[String]:

@@ -71,6 +71,15 @@ func get_row_state() -> Dictionary:
 		state["icon"] = rp.selected_resource as Texture2D
 	if _color_picker.visible:
 		state["color"] = _color_picker.color
+		
+	var mode_controls := get_node_or_null("ColorModeControls")
+	if mode_controls:
+		var mode_button := mode_controls.get_node_or_null("DisplayModeOption") as OptionButton
+		var icon_picker := mode_controls.get_node_or_null("SwatchIconPicker") as ResourcePicker
+		if mode_button:
+			state["display_mode"] = mode_button.selected
+		if icon_picker and icon_picker.selected_resource:
+			state["swatch_icon"] = icon_picker.selected_resource
 	return state
 
 func apply_row_state(state: Dictionary) -> void:
@@ -83,3 +92,14 @@ func apply_row_state(state: Dictionary) -> void:
 		_color_picker.color = state["color"]
 	if state.has("icon") and _icon_container.visible:
 		_icon_resource_container.picker.set_edited_resource(state["icon"])
+	var mode_controls := get_node_or_null("ColorModeControls")
+	if mode_controls:
+		if state.has("display_mode"):
+			var mode_button := mode_controls.get_node_or_null("DisplayModeOption") as OptionButton
+			if mode_button:
+				mode_button.selected = state["display_mode"]
+				mode_button.item_selected.emit(state["display_mode"])
+		if state.has("swatch_icon") and mode_controls.get_node_or_null("SwatchIconPicker"):
+			var icon_picker := mode_controls.get_node_or_null("SwatchIconPicker") as ResourcePicker
+			if icon_picker.picker:
+				icon_picker.picker.edited_resource = state["swatch_icon"]

@@ -38,7 +38,7 @@ func get_default_value() -> float:
 func get_random_value() -> float:
 	return randf_range(min_value, max_value)
 
-func apply_to_preview(manager: CreatorManager, value: Variant, force_full_pass: bool = false) -> void:
+func apply_to_preview(manager: CreatorManager, value: Variant, should_camera_focus: bool = false, force_full_pass: bool = false) -> void:
 	manager._apply_deform(self, value as float)
 
 func apply_to_character(character_root: Node, skeleton: Node, value: Variant) -> void:

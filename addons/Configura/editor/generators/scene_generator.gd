@@ -18,6 +18,7 @@ func generate(config: CharacterConfig, output_scene: String) -> Error:
 	var root := _build_base_tree()
 	_generate_ui(root)
 	_generate_load(root)
+	_generate_save(root)
 	var err := _save(root, output_scene)
 	root.free()
 	return err
@@ -42,7 +43,16 @@ func _build_base_tree() -> Node:
 	hbox.add_theme_constant_override("separation", 0)
 	root.add_child(hbox)
 	hbox.owner = root
-
+	
+	var overlay := CharacterNameSaver.new()
+	print("\t Adding the save overlay")
+	overlay.name = "SaveOverlay"
+	overlay.visible = false
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	root.add_child(overlay)
+	overlay.owner = root
+	root.overlay = overlay
+	
 	# CreatorUI (VBoxContainer — populated in stage 2)
 	print("\tAdding the CreatorUI")
 	var ui := VBoxContainer.new()
@@ -163,14 +173,21 @@ func _generate_ui(root: Node) -> void:
 	print("Generating the CharacterCreator UI")
 	var ui := root.get_node("Layout/CreatorUI")
 	var ui_gen := UIGenerator.new()
-	ui_gen.build(ui, _config.options, root,_config.theme_resource,_config.allow_randomize)
+	ui_gen.build(ui, _config.options, root,_config.theme_resource,_config.allow_randomize, _config.color_swatch_palette)
 
+## Generates the load character tabs
 func _generate_load(root: Node) -> void:
 	print("Generating the CharacterLoader UI")
 	var loader : CharacterLoader = root.get_node("Layout/LoaderUI")
 	var ui_gen := LoadGenerator.new()
 	ui_gen.build(loader, root, _config.theme_resource)
 	loader.config = _config
+
+func _generate_save(root:Node)->void:
+	print("Generating the SaveCharacter Overlay")
+	var saver: CharacterNameSaver = root.get_node("SaveOverlay")
+	var save_gen := SaveGenerator.new()
+	save_gen.build(root,saver)
 
 ## Serialization
 func _save(root: Node, output_scene: String) -> Error:

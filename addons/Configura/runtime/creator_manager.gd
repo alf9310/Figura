@@ -27,6 +27,13 @@ var _cur_mesh: MeshInstance3D
 ## Reference to the character's skeleton rig
 var _character_skeleton = Skeleton3D.new()
 
+## Reference to the CharacterPreview node
+var _character_preview: CharacterPreview
+
+var _tabs_array: Array
+var _camera_focus_pos := {}
+var _camera_focus_size := {}
+
 ## Called once by CharacterCreator._ready() before any player input arrives
 func initialize(config: CharacterConfig, preview: CharacterPreview, ui: Control) -> void:
 	_config         = config
@@ -34,11 +41,30 @@ func initialize(config: CharacterConfig, preview: CharacterPreview, ui: Control)
 	_current_state  = CharacterState.from_config(config)
 	_character_root = preview.get_character_root()
 	
+	var _tabs_container
+	for node in get_parent().find_children("*", "TabContainer"):
+		if node is TabContainer:
+			_tabs_container = node
+			_tabs_container.connect("tab_changed", _on_tab_changed)
+			break
+
+	for node in _tabs_container.find_children("*", "ScrollContainer"):
+		_tabs_array.append(node.name)
+	
+	for node in get_parent().find_children("*", "CharacterPreview"):
+		_character_preview = node
+		break
+		
+	calc_average_camera_focus_pos()
+	calc_camera_focus_size()
+	calc_camera_height_threshold()
+				
 	# Set the reference to the character's skeleton
 	for node in _character_root.find_children("*", "Skeleton3D", true):
 		if node is Skeleton3D:
 			_character_skeleton = node
-	
+			break
+			
 	# Resolve the AnimationTree if one was built into the scene
 	if get_parent().has_meta("animation_tree_path"):
 		_anim_tree = get_parent().get_node(
@@ -80,9 +106,12 @@ func _warm_cache(opt: OptionDefinition) -> void:
 		for path in opt.mesh_paths:
 			var mesh := _mesh_cache.get(path) as MeshInstance3D
 			if mesh:
-				var key := "%s:%d" % [path, opt.surface_index]
-				if not _mat_cache.has(key):
-					_mat_cache[key] = mesh.get_active_material(opt.surface_index)
+				var start_idx = 0 if opt.surface_index == -1 else opt.surface_index
+				var end_idx = mesh.get_surface_override_material_count() - 1 if opt.surface_index == -1 else opt.surface_index
+				for i in range(start_idx, end_idx + 1):
+					var key := "%s:%d" % [path, i]
+					if not _mat_cache.has(key):
+						_mat_cache[key] = mesh.get_active_material(i)
 
 	if opt is MeshSwapOption:
 		for choice: MeshSwapChoice in opt.choices:
@@ -112,6 +141,67 @@ func _warm_cache(opt: OptionDefinition) -> void:
 			else:
 				push_warning("[CharacterExporter] No DeformModifier3D found under skeleton at %s" % path)
 
+func calc_average_camera_focus_pos():
+	for cat in _config.mesh_pos_dict:
+		var avg = Vector3()
+		
+		for vec in _config.mesh_pos_dict[cat]:
+			avg += vec
+			
+		avg /= _config.mesh_pos_dict[cat].size()
+		_camera_focus_pos[cat] = avg
+	
+	var gen_avg = Vector3()
+	for val in _camera_focus_pos.values():
+		gen_avg += val
+	
+	gen_avg /= _camera_focus_pos.size()
+	
+	_camera_focus_pos["General"] = gen_avg
+	
+func calc_camera_focus_size():
+	for cat in _config.mesh_size_dict:
+		if _config.mesh_size_dict[cat].size() > 1:
+			var min_bounds = Vector3(9999, 9999, 9999)
+			var max_bounds = Vector3(0, 0, 0)
+		
+			for vec in _config.mesh_size_dict[cat]:
+				min_bounds = Vector3(
+							min(min_bounds.x, vec.x),
+							min(min_bounds.y, vec.y),
+							min(min_bounds.z, vec.z))
+				max_bounds = Vector3(
+							max(max_bounds.x, vec.x),
+							max(max_bounds.y, vec.y),
+							max(max_bounds.z, vec.z))
+			
+			var object_size = max_bounds - min_bounds
+			_camera_focus_size[cat] = object_size
+		else:
+			var size_vec = _config.mesh_size_dict[cat][0]
+			var object_size = Vector3(size_vec.x, size_vec.y, size_vec.z)
+			_camera_focus_size[cat] = object_size
+			
+func calc_camera_height_threshold():
+	var min_height = Vector3(9999, 9999, 9999)
+	var max_height = Vector3(0, 0, 0)
+	
+	for cat in _config.mesh_pos_dict:
+		for vec in _config.mesh_pos_dict[cat]:
+			min_height = Vector3(
+							min(min_height.x, vec.x),
+							min(min_height.y, vec.y),
+							min(min_height.z, vec.z))
+			max_height = Vector3(
+							max(max_height.x, vec.x),
+							max(max_height.y, vec.y),
+							max(max_height.z, vec.z))
+	
+	var min_threshold = min(min_height.x, min_height.y, min_height.z)
+	var max_threshold = max(max_height.x, max_height.y, max_height.z)
+	_character_preview.set_camera_min_height(min_threshold)
+	_character_preview.set_camera_max_height(max_threshold)
+
 ## Every slider move, button press, and color pick arrives here.
 func apply_option(option_id: String, value: Variant) -> void:
 	print("Manager received signal for: ", option_id, " -> ", value)
@@ -127,7 +217,7 @@ func apply_option(option_id: String, value: Variant) -> void:
 			if other.get_option_category() == "anim" and other.group == opt.group and other_id != option_id:
 				_current_state.record(other_id, null)
 				
-	opt.apply_to_preview(self, value)
+	opt.apply_to_preview(self, value, true)
 	
 	# State stays in sync with what the player intended rather than what the mesh actually reflects.
 	_current_state.record(option_id, value)
@@ -145,7 +235,7 @@ func _apply_swap(opt: MeshSwapOption, choice_index: int, force_full_pass: bool =
 	# Early exit if the choice hasn't changed (or initializing none)
 	if prev_index == choice_index:
 		return
-		
+	
 	# Otherwise, load in mesh
 	var is_none := opt.choices[choice_index].file_path.is_empty()
 	var cur_group := ""
@@ -161,8 +251,16 @@ func _apply_swap(opt: MeshSwapOption, choice_index: int, force_full_pass: bool =
 	
 	# Unload the previous mesh
 	if _active_accessories.has(cur_group):
-		if _active_accessories[cur_group] != null:
-			_active_accessories[cur_group].free()
+		var old_mesh := _active_accessories[cur_group]
+		if old_mesh != null:
+			var old_path := _character_root.get_path_to(old_mesh)
+			_mesh_cache.erase(old_path)
+			for surf in range(8):  # generous upper bound on surface count
+				_mat_cache.erase("%s:%d" % [old_path, surf])
+			for key in _blend_idx_cache.keys():
+				if key.begins_with(String(old_path) + "::"):
+					_blend_idx_cache.erase(key)
+			old_mesh.free()
 
 	# Add new mesh to skeleton and to dictionary
 	if not is_none and _cur_mesh != null and choice_index >= 0 and choice_index < opt.choices.size():
@@ -171,6 +269,10 @@ func _apply_swap(opt: MeshSwapOption, choice_index: int, force_full_pass: bool =
 		_cur_mesh.owner = _character_root
 		
 		_active_accessories[cur_group] = _cur_mesh
+		
+		# When a newly mesh is selected, set camera to focus on new mesh
+		#if _character_preview and prev_index != -1:
+			#_character_preview.set_camera_focus(_camera_focus_pos[cur_group])
 		
 		# Add node path to to apply blendshape values
 		opt.choices[choice_index].mesh_path = _character_root.get_path_to(_cur_mesh)
@@ -202,6 +304,8 @@ func apply_current_option_values(option_lists: Array[VBoxContainer], cur_group: 
 				var opt_group: String = _create_opt_group_name(cur_group, opt_parts)
 					
 				if opt_group.to_lower() == cur_group.to_lower():
+					var new_paths:Array[NodePath] = [key]
+					color_option.mesh_paths = new_paths
 					var mat_key = "%s:%d" % [key, color_option.surface_index]
 						
 					if not _mat_cache.has(mat_key):
@@ -252,30 +356,27 @@ func apply_current_color_value(color_name: String) -> void:
 ## Applied color to mesh material
 func _apply_color(opt: ColorOption, color: Color) -> void:
 	for path in opt.mesh_paths:
-		var key := "%s:%d" % [path, opt.surface_index]
-		var mat := _mat_cache.get(key) as Material
-	
-		if mat == null:
+		var mesh := _mesh_cache.get(path) as MeshInstance3D
+		if mesh == null:
 			continue
-
-		if opt.surface_index == -1:
-			# Apply to every surface on this mesh
-			var mesh := _mesh_cache.get(path) as MeshInstance3D
-			if mesh == null:
-				continue
-			for i in range(mesh.get_surface_override_material_count()):
-				_write_color(mesh.get_active_material(i), opt.shader_param, color)
-			continue
+			
+		var start_idx = 0 if opt.surface_index == -1 else opt.surface_index
+		var end_idx = mesh.get_surface_override_material_count() -1 if opt.surface_index == -1 else opt.surface_index
 		
-		# Duplicates on first write and then updates _mat_cache[key] to point at the duplicate.
-		if not opt.apply_to_shared_material:
-			mat = mat.duplicate()
-			var mesh := _mesh_cache.get(path) as MeshInstance3D
-			if mesh:
-				mesh.set_surface_override_material(opt.surface_index, mat)
-			_mat_cache[key] = mat
+		for i in range(mesh.get_surface_override_material_count()):
+			var key := "%s:%d" % [path, opt.surface_index]
+			var mat := _mat_cache.get(key) as Material
+			if mat == null:
+				continue
 
-		_write_color(mat, opt.shader_param, color)
+			# Apply to every surface on this mesh
+			# Duplicates on first write and then updates _mat_cache[key] to point at the duplicate.
+			if not opt.apply_to_shared_material:
+				mat = mat.duplicate()
+				mesh.set_surface_override_material(i, mat)
+				_mat_cache[key] = mat
+
+			_write_color(mat, opt.shader_param, color)
 
 func _write_color(mat: Material, param: String, color: Color) -> void:
 	if mat is ShaderMaterial:
@@ -320,7 +421,7 @@ func _apply_deform(opt: DeformOption, value: float) -> void:
 	modifier.set_deform_value(opt, value)
 
 ## Applies texture atlas to material shader
-func _apply_texture_atlas(opt: TextureAtlasOption, choice_index: int) -> void:
+func _apply_texture_atlas(opt: TextureAtlasOption, choice_index: int, should_camera_focus: bool) -> void:
 	print("atlas '%s' required=%s choice_index=%d" % [opt.resource_name, opt.required, choice_index])
 	if choice_index == -1 or (not opt.required and choice_index == 0):
 		for path in opt.mesh_paths:
@@ -336,10 +437,14 @@ func _apply_texture_atlas(opt: TextureAtlasOption, choice_index: int) -> void:
 	var row : int = atlas_index / opt.columns
 	var offset := Vector3(col * uv_width, row * uv_height, 0.0)
 
+	# Reference to mesh for camera to focus on
+	var mesh_to_focus
+	
 	for path in opt.mesh_paths:
 		var mesh := _mesh_cache.get(path) as MeshInstance3D
 		if mesh:
 			mesh.visible = true
+			mesh_to_focus = mesh
 			
 		var key := "%s:%d" % [path, opt.surface_index]
 		var mat := _mat_cache.get(key) as Material
@@ -355,16 +460,21 @@ func _apply_texture_atlas(opt: TextureAtlasOption, choice_index: int) -> void:
 			mat.uv1_offset = offset
 		elif mat is ShaderMaterial:
 			mat.set_shader_parameter(opt.shader_param, Vector2(offset.x, offset.y))
+	
+	# set camera to focus on mesh where the texture atlas is changing
+	if should_camera_focus and _character_preview:
+		_character_preview.set_camera_focus(mesh_to_focus.get_aabb().get_center())
+	
 
 ## Bulk Application
 ## When a CharacterState is loaded from disk and needs to be applied all at once. 
 func _apply_full_state(state: CharacterState) -> void:
 	for option_id in state.values:
-		print(option_id)
+		
 		var opt := _option_map.get(option_id)
 		if opt == null:
 			continue
-		opt.apply_to_preview(self, state.values[option_id], true)
+		opt.apply_to_preview(self, state.values[option_id], false, true)
 
 ## Public entry point
 func load_state(state: CharacterState) -> void:
@@ -394,3 +504,28 @@ func get_current_state() -> CharacterState:
 			_current_state.active_meshes.append(String(_config.output_path+"/meshes/"+items.name+".tscn"))
 	
 	return _current_state
+
+func _on_tab_changed(idx: int):
+	var min_bounds = Vector3(9999, 9999, 9999)
+	var max_bounds = Vector3(0, 0, 0)
+	
+	if _camera_focus_pos.has(_tabs_array[idx]):
+		if _tabs_array[idx] == "General":
+			for node in _character_root.find_children("*", "MeshInstance3D"):
+				min_bounds = Vector3(
+							min(min_bounds.x, node.mesh.get_aabb().position.x),
+							min(min_bounds.y, node.mesh.get_aabb().position.y),
+							min(min_bounds.z, node.mesh.get_aabb().position.z))
+				max_bounds = Vector3(
+							max(max_bounds.x, node.mesh.get_aabb().position.x),
+							max(max_bounds.y, node.mesh.get_aabb().position.y),
+							max(max_bounds.z, node.mesh.get_aabb().position.z))
+			var object_sizes = max_bounds - min_bounds
+			var object_size = max(object_sizes.x, object_sizes.y, object_sizes.z)
+			_character_preview.calculate_camera_zoom(object_size)
+		else:
+			var object_sizes = _camera_focus_size[_tabs_array[idx]]
+			var object_size = max(object_sizes.x, object_sizes.y, object_sizes.z)
+			_character_preview.calculate_camera_zoom(object_size)
+			
+		_character_preview.set_camera_focus(_camera_focus_pos[_tabs_array[idx]])

@@ -127,6 +127,7 @@ theme_override_constants/separation = 50
 script = ExtResource("2_um6mk")
 picker_type = "PackedScene"
 min_size = Vector2(0, 50)
+show_edit_button = null
 
 [node name="OutputContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=531757179]
 layout_mode = 2
@@ -293,6 +294,7 @@ theme_override_constants/separation = 50
 script = ExtResource("2_um6mk")
 picker_type = "Theme"
 min_size = Vector2(0, 50)
+show_edit_button = true
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer" unique_id=1085558413]
 layout_mode = 2
@@ -320,6 +322,34 @@ theme_override_constants/separation = 50
 script = ExtResource("2_um6mk")
 picker_type = "ShaderMaterial"
 min_size = Vector2(0, 50)
+show_edit_button = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer" unique_id=560833343]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=87455189]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Color Palette"
+
+[node name="PalettePickerContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1725318215]
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_ekklj")
+
+[node name="PaletteResourcePicker" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer/ThemeContainer/MarginContainer/VBoxContainer/HBoxContainer3/PalettePickerContainer" unique_id=386669542]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+script = ExtResource("2_um6mk")
+picker_type = "ColorSwatchPalette"
+show_edit_button = true
 
 [node name="OptionsPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer2/VBoxContainer" unique_id=452393196]
 custom_minimum_size = Vector2(0, 35)

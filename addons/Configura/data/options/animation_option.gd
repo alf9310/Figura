@@ -32,7 +32,7 @@ func get_option_category() -> String:
 func get_default_value() -> Variant:
 	return animation_name if is_default else null
 
-func apply_to_preview(manager: CreatorManager, value: Variant, force_full_pass: bool = false) -> void:
+func apply_to_preview(manager: CreatorManager, value: Variant, should_camera_focus: bool = false, force_full_pass: bool = false) -> void:
 	if value == null:
 		return
 	manager._apply_animation(self)

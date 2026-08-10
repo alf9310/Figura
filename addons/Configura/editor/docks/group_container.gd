@@ -185,3 +185,7 @@ func apply_group_state(state: Dictionary) -> void:
 	if state.has("default_selected") and _default_options.item_count > 0:
 		var idx: int = state["default_selected"]
 		_default_options.selected = clampi(idx, 0, _default_options.item_count - 1)
+
+func add_owned_row(row: OptionRow) -> void:
+	_owned_rows.append(row)
+	row.visible = _include_group.button_pressed

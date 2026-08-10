@@ -4,6 +4,11 @@
 class_name ColorOption
 extends OptionDefinition
 
+enum DisplayMode { 
+	SWATCHES, 
+	SWATCHES_AND_PICKER, 
+	PICKER }
+
 ## NodePath to the MeshInstance3D whose material contains this parameter.
 @export var mesh_paths: Array[NodePath] = []
 ## Surface index on the mesh to target. -1 means apply to all surfaces.
@@ -17,6 +22,10 @@ extends OptionDefinition
 @export var apply_to_shared_material: bool = false
 ## Tracks all the mesh groups this shape appears in, used by the editor dock only (not read at runtime).
 @export var editor_groups: Array[String] = []
+## Mode for how colors are displayed
+@export var display_mode: DisplayMode = DisplayMode.PICKER
+## Icon for how color swatches appear
+@export var swatch_icon: Texture2D
 
 func get_option_category() -> String:
 	return "color"
@@ -36,7 +45,7 @@ func get_mesh_paths() -> Array[NodePath]:
 func get_surface_index() -> int:
 	return surface_index
 
-func apply_to_preview(manager: CreatorManager, value: Variant, force_full_pass: bool = false) -> void:
+func apply_to_preview(manager: CreatorManager, value: Variant, should_camera_focus: bool = false, force_full_pass: bool = false) -> void:
 	manager._apply_color(self, value as Color)
 
 func apply_to_character(character_root: Node, skeleton: Node, value: Variant) -> void:
@@ -63,22 +72,48 @@ func get_editor_groups() -> Array[String]:
 	return editor_groups
 
 func create_editor_rows(content_vbox, group_ui, group_name, group_has_atlas, active_ui_controls, group_scene, row_scene) -> GroupContainer:
-	var container : GroupContainer = group_ui
-	if container == null:
-		container = group_scene.instantiate()
-		content_vbox.add_child(container)
-		container.setup(self)
-		active_ui_controls.append(container)
 	var row: OptionRow = row_scene.instantiate()
 	row.set_meta("source_option", self)
 	row.set_meta("category", group_name)
-	container.add_option_rows(row)
+	content_vbox.add_child(row)
 	row.setup(self)
+	_build_color_editor_controls(row)
 	active_ui_controls.append(row)
-	return container
+	return group_ui
 	
+func _build_color_editor_controls(row: OptionRow) -> void:
+	var controls_box := HBoxContainer.new()
+	controls_box.name = "ColorModeControls"
+
+	var mode_button := OptionButton.new()
+	mode_button.name = "DisplayModeOption"
+	for mode_name in DisplayMode.keys():
+		mode_button.add_item(mode_name.capitalize().replace("_", " "))
+	mode_button.select(display_mode)
+	controls_box.add_child(mode_button)
+
+	var icon_picker := ResourcePicker.new()
+	icon_picker.name        = "SwatchIconPicker"
+	icon_picker.picker_type = "Texture2D"
+	icon_picker.min_size    = Vector2(100, 28)
+	icon_picker.visible     = display_mode != DisplayMode.PICKER
+	controls_box.add_child(icon_picker)
+
+	row.add_child(controls_box)
+
+	icon_picker.picker.edited_resource = swatch_icon
+	icon_picker.picker.resource_changed.connect(func(res: Resource):
+		swatch_icon = res as Texture2D
+	)
+
+	mode_button.item_selected.connect(func(idx: int):
+		display_mode = idx as DisplayMode
+		icon_picker.visible = display_mode != DisplayMode.PICKER
+	)
+
 func _to_string() -> String:
-	return "ColorOption(%s | %s surface:%d | param: %s | default: %s | shared: %s)" % [
+	return "ColorOption(%s | %s surface:%d | param: %s | default: %s | shared: %s | mode: %s)" % [
 		display_name, mesh_paths.size(), surface_index,
-		shader_param, default_color.to_html(), apply_to_shared_material
+		shader_param, default_color.to_html(), apply_to_shared_material,
+		DisplayMode.keys()[display_mode]
 	]

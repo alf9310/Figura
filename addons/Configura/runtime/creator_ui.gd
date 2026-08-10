@@ -36,7 +36,7 @@ func _bind_controls(node: Node) -> void:
 		node.changed.connect(func(id: String, val: Variant) -> void: 
 			option_changed.emit(id, val)
 		)
-		
+	
 	for child in node.get_children():
 		_bind_controls(child)
 

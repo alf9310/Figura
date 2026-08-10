@@ -14,6 +14,7 @@ static var _splitter := RegEx.create_from_string("[_.,\\-]+")
 
 @onready var _character_resource_picker: Container = %CharacterResourcePicker
 @onready var _character_scene_container: HBoxContainer = %CharacterSceneContainer
+@onready var _palette_resource_picker: Container = %PaletteResourcePicker
 
 @onready var _theme_resource_picker: 	 Container = %ThemeResourcePicker
 @onready var _skybox_resource_picker:	 Container = %SkyboxResourcePicker
@@ -38,6 +39,7 @@ var _detected_options: Array[OptionDefinition] = []
 ## Stores the theme before the [CharacterConfig] is created
 var _current_theme_resource: Theme
 var _current_skybox_shader: ShaderMaterial
+var _current_color_palette: ColorSwatchPalette
 
 ## Flat reference list for O(N) harvesting during generation
 var _active_ui_controls: Array[Control] = []
@@ -48,22 +50,42 @@ var _skeleton_path:	String = ""
 
 var _deform_options: Array[DeformOption] = []
 
+var _mesh_pos_dict := {}
+var _mesh_size_dict := {}
+
 ## Connect resource signals on ready
 func _ready() -> void:
 	_bone_deforms_container.visible = false
 	_character_resource_picker.picker.resource_changed.connect(_on_input_resource_selected)
 	_theme_resource_picker.picker.resource_changed.connect(_on_theme_resource_selected)
 	_skybox_resource_picker.picker.resource_changed.connect(_on_skybox_resource_selected)
+	_palette_resource_picker.picker.resource_changed.connect(_on_palette_resource_selected)
 
+func _on_input_resource_selected(resource: PackedScene) -> void:
+	_current_character_scene = resource
+	
 func _on_theme_resource_selected(resource: Theme) -> void:
 	_current_theme_resource = resource
   
 func _on_skybox_resource_selected(resource: ShaderMaterial) -> void:
 	_current_skybox_shader = resource
 	
-func _on_input_resource_selected(resource: PackedScene) -> void:
-	_current_character_scene = resource
-	
+func _on_palette_resource_selected(resource: ColorSwatchPalette) -> void:
+	_current_color_palette = resource
+	if resource == null:
+		return
+	var is_real_file := resource.resource_path.begins_with("res://") and not resource.resource_path.contains("::")
+	if is_real_file:
+		return
+	_create_new_folder("resources")
+	var save_path := _output_path.text + "/resources/color_palette.tres"
+	var err := ResourceSaver.save(resource, save_path)
+	if err == OK:
+		_current_color_palette = ResourceLoader.load(save_path) as ColorSwatchPalette
+		_palette_resource_picker.picker.edited_resource = _current_color_palette
+	else:
+		push_warning("[ConfiguraDock] Failed to save color palette: %d" % err)
+			
 ## Saving and loading dock info
 func get_persistent_state() -> Dictionary:
 	var state := {
@@ -77,6 +99,8 @@ func get_persistent_state() -> Dictionary:
 		state["theme_path"] = _current_theme_resource.resource_path
 	if _current_skybox_shader:
 		state["skybox_path"] = _current_skybox_shader.resource_path
+	if _current_color_palette:
+		state["palette_path"] = _current_color_palette.resource_path
 
 	state["headers"] = []
 	for header in _categories_list.get_children():
@@ -110,6 +134,9 @@ func apply_persistent_state(state: Dictionary) -> void:
 	if state.has("skybox_path") and ResourceLoader.exists(state["skybox_path"]):
 		_current_skybox_shader = load(state["skybox_path"])
 		_skybox_resource_picker.picker.edited_resource = _current_skybox_shader
+	if state.has("palette_path") and ResourceLoader.exists(state["palette_path"]):
+		_current_color_palette = load(state["palette_path"])
+		_palette_resource_picker.picker.edited_resource = _current_color_palette
 	if state.has("character_scene_path") and ResourceLoader.exists(state["character_scene_path"]):
 		_current_character_scene = load(state["character_scene_path"])
 		_character_resource_picker.picker.edited_resource = _current_character_scene
@@ -129,7 +156,7 @@ func apply_persistent_state(state: Dictionary) -> void:
 	# Apply existing bone deforms
 	if state.has("deform_count"):
 		for i in int(state["deform_count"]):
-			var path := "res://addons/Configura/editor/deform_%d.tres" % i
+			var path := _output_path.text + "/resources/deform_%d.tres" % i
 			if ResourceLoader.exists(path):
 				var opt := load(path) as DeformOption
 				_deform_options.append(opt)
@@ -179,7 +206,7 @@ func _on_confirm_button_pressed() -> void:
 	_base_model_file_path = _output_path.text + "/baseModel.tscn"
 	
 	# Create a meshes folder if it does not already exist
-	_create_meshes_folder()
+	_create_new_folder("meshes")
 	
 	var base_save_err = _save_node(base_model_scene, _base_model_file_path)
 	
@@ -190,6 +217,8 @@ func _on_confirm_button_pressed() -> void:
 	print("Save success! Base model scene created")
 		
 	# Extract swappable meshes and update base model scene
+	_mesh_pos_dict.clear()
+	_mesh_size_dict.clear()
 	var updated_base_model_scene = _extract_meshes(_current_character_scene)
 
 	# Adding DeformModifier3D to Base Model scene before saving
@@ -226,10 +255,16 @@ func _on_confirm_button_pressed() -> void:
 
 ## Helper method that checks if a meshes folder exists in the user provided output_path
 ## Creates one if it doesn't
-func _create_meshes_folder():
-	var dir := DirAccess.open("user://")
-	if not dir.dir_exists_absolute(_output_path.text + "/meshes"):
-		dir.make_dir_absolute(_output_path.text + "/meshes/")
+func _create_new_folder(folder_name: String):
+	var dir := DirAccess.open("res://")
+	if dir == null:
+		push_error("[ConfiguraDock] Could not open res:// to create folder '%s'" % folder_name)
+		return
+	var path := _output_path.text + "/" + folder_name
+	if not dir.dir_exists_absolute(path):
+		var err := dir.make_dir_absolute(path + "/")
+		if err != OK:
+			push_error("[ConfiguraDock] Failed to create folder '%s': %d" % [path, err])
 
 ## Phase 2: Options List
 ## Each detected OptionDefinition gets its own OptionRow scene 
@@ -343,10 +378,10 @@ func _extract_meshes(character_tscn: PackedScene) -> Node3D:
 	for node in root.find_children("*", "MeshInstance3D", true, false):
 		if not (node is MeshInstance3D and node.mesh != null):
 			continue
-
+		
 		var is_base_mesh = false
 		var node_name_parts = _splitter.sub(node.name, "|", true).split("|", false)
-			
+		
 		for part in node_name_parts:
 			if part.to_lower() == "base":
 				is_base_mesh = true
@@ -358,6 +393,19 @@ func _extract_meshes(character_tscn: PackedScene) -> Node3D:
 			if skeleton_node.find_child(mesh_node.name) == null:
 				skeleton_node.add_child(mesh_node)
 				mesh_node.owner = base_model
+				
+			if node_name_parts.size() > 1:
+				if !_mesh_pos_dict.has(node_name_parts[1]):
+					_mesh_pos_dict[node_name_parts[1]] = []
+					_mesh_pos_dict[node_name_parts[1]].append(node.get_aabb().get_center())
+				
+				if !_mesh_size_dict.has(node_name_parts[1]):
+					_mesh_size_dict[node_name_parts[1]] = []
+					var min_bounds = node.get_aabb().position
+					var max_bounds = node.get_aabb().end
+					
+					var object_size = max_bounds - min_bounds
+					_mesh_size_dict[node_name_parts[1]].append(object_size)
 		else:
 			# Extract meshes (base model, accessories, clothing) into their own scenes
 			var save_path = _output_path.text + "/meshes/" + node.name + ".tscn"
@@ -366,11 +414,23 @@ func _extract_meshes(character_tscn: PackedScene) -> Node3D:
 				
 			if mesh_save_err == OK:
 				print("Save success! %s scene saved" % mesh_node.name)
+				
+				if !_mesh_pos_dict.has(node_name_parts[0]):
+					_mesh_pos_dict[node_name_parts[0]] = []
+				_mesh_pos_dict[node_name_parts[0]].append(node.get_aabb().get_center())
+				
+				if !_mesh_size_dict.has(node_name_parts[0]):
+					_mesh_size_dict[node_name_parts[0]] = []
+				var min_bounds = node.get_aabb().position
+				var max_bounds = node.get_aabb().end
+						
+				var object_size = max_bounds - min_bounds
+				_mesh_size_dict[node_name_parts[0]].append(object_size)
 			else:
 				print("Save failed - Error: %d" % mesh_save_err)
 	
 	_skeleton_path = base_model.get_path_to(skeleton_node)
-					
+	
 	return base_model
 			
 ## Creates and saves a Node scene to the out_path
@@ -412,7 +472,8 @@ func _on_add_deform_button_pressed() -> void:
 	opt.group = "Body"
 	opt.resource_name = "deform_%d" % idx
 	
-	var save_path := "res://addons/Configura/editor/deform_%d.tres" % idx
+	_create_new_folder("resources")
+	var save_path := _output_path.text + "/resources/" + opt.resource_name + ".tres"
 	ResourceSaver.save(opt, save_path)
 	opt = ResourceLoader.load(save_path) as DeformOption
 	
@@ -470,9 +531,12 @@ func _on_generate_button_pressed() -> void:
 	config.save_state_on_confirm	= _save_state.button_pressed
 	config.theme_resource 			= _current_theme_resource
 	config.skybox_resource			= _current_skybox_shader
+	config.color_swatch_palette		= _current_color_palette
 	config.output_path				= _output_path.text
 	config.skeleton_path			= _skeleton_path
-
+	config.mesh_pos_dict 			= _mesh_pos_dict
+	config.mesh_size_dict			= _mesh_size_dict
+	
 	# Tracker to ensure we don't add the same shared blendshape twice
 	var processed_options: Dictionary = {}
 		
@@ -514,11 +578,12 @@ func _on_generate_button_pressed() -> void:
 				
 	# Save and reload DeformOptions to ensure all edits are saved
 	for i in _deform_options.size():
-		var opt_path := "res://addons/Configura/editor/deform_%d.tres" % i
-		ResourceSaver.save(_deform_options[i], opt_path)
+		var opt_res := _deform_options[i]
+		var opt_path :=  _output_path.text + "/resources/" + opt_res.resource_name + ".tres"
+		ResourceSaver.save(opt_res, opt_path)
 		var opt := ResourceLoader.load(opt_path, "", ResourceLoader.CACHE_MODE_IGNORE) as DeformOption
 		if !opt:
-			push_error("failed to load deform_%d.tres" % i)
+			push_error("Failed to load %s" % opt_path)
 			continue
 		config.options.append(opt)
 

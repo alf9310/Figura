@@ -17,6 +17,10 @@ extends Resource
 
 @export var skeleton_path: String = ""
 
+@export var mesh_pos_dict:= {}
+
+@export var mesh_size_dict:= {}
+
 ## --- Runtime behaviour flags ---
 ## Expose a Randomize button in the generated scene footer.
 @export var allow_randomize: bool = true
@@ -48,6 +52,8 @@ extends Resource
 @export var theme_resource: Theme
 ## Skybox shader applied to preview viewport
 @export var skybox_resource: ShaderMaterial
+## Shared color palette for swatches
+@export var color_swatch_palette: ColorSwatchPalette
 
 ## Returns a string with a summary of Character config settings
 func _to_string() -> String:
