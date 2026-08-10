@@ -29,6 +29,12 @@ However, building these systems is technically complex. Configura aims to simpli
 The project focuses on bridging the gap between **artist workflows** and **game development pipelines**, enabling small teams to divide work more effectively.
 
 ---
+## Updates
+In v1.1, we added:
+* Color swatches
+* Dynamic camera movement
+* Character name saving and loading
+---
 
 ## You are in control
 
