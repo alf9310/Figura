@@ -1,7 +1,7 @@
 # Configura
 
 <p align="center">
-  <img src="configura_logo.png" width="400" alt="Configura Logo">
+  <img src="/README Media/configura_logo.png" width="400" alt="Configura Logo">
 </p>
 
 ## Open-Source Character Creator Creation Tool in Godot
@@ -13,7 +13,7 @@
 ## Overview
 
 <p align="center">
-  <img src="save_and_load.gif" width="400" alt="save and load gif">
+  <img src="/README Media/save_and_load.gif" width="400" alt="save and load gif">
 </p>
 
 Character creators are a powerful tool for creative expression. They allow players and artists to explore identity, experiment with design, and create characters across different artistic styles and worlds.
@@ -35,14 +35,19 @@ The following features were added:
 * Color swatches
 * Dynamic camera movement
 * Character name saving and loading
+<p display="flex" padding="20">
+  <img src="/README Media/ColorSwatches.gif" width="400" alt="color swatches gif">
+  <img src="/README Media/CameraMovement.gif" width="400" alt="camera movement gif">
+  <img src="/README Media/NameSaveLoad.gif" width="400" alt="name save and load gif">
+</p>
 ---
 
 ## You are in control
 
 The Configura framework was built with developer/artist control in mind. Through our plugin dock, nearly every part of the final product is customizable to your game's need. By design, the framework is built with no constraints on model anatomy or level of detail, so long as it follows the naming conventions detailed within documentation. 
 <p display="flex" padding="20">
-  <img src="bone_deforms.gif" width="400" alt="deforms gif">
-  <img src="icons.gif" width="400" alt="icons gif">
+  <img src="/README Media/bone_deforms.gif" width="400" alt="deforms gif">
+  <img src="/README Media/icons.gif" width="400" alt="icons gif">
 </p>
 
 ---
