@@ -46,8 +46,8 @@ The following features were added:
 <p>
   <img src="/README Media/NameSaveLoad.gif" width="400" alt="name save and load gif">
 </p>
----
 
+---
 ## You are in control
 
 The Configura framework was built with developer/artist control in mind. Through our plugin dock, nearly every part of the final product is customizable to your game's need. By design, the framework is built with no constraints on model anatomy or level of detail, so long as it follows the naming conventions detailed within documentation. 
@@ -89,7 +89,6 @@ For information on how to use Configura, please refer to our [documentation](htt
 * For a more detailed description of under-the-hood scripts, refer to [Internal Documentation](https://docs.google.com/document/d/1iWOP9pb7c7e-iOMeYIoo6CUO8fcMWdDgYTMIAMEr2e8/edit?usp=sharing)
 
 ---
-
 ### Adding to the Source Code
 
 Developers are welcome to improve or expand Configura!
@@ -112,7 +111,6 @@ To contribute code:
 Please keep code well-documented and follow existing project structure where possible.
 
 ---
-
 ### Bug Reports
 
 If you encounter a bug:
@@ -128,7 +126,6 @@ If you encounter a bug:
 Clear bug reports make it much easier to diagnose problems.
 
 ---
-
 ## Community & Communication
 
 The primary place for community discussion, collaboration, and support is the **Configura Discord server**.
@@ -145,7 +142,6 @@ There you can:
 **Join the Discord:**(https://discord.gg/jhwYxcMBab)
 
 ---
-
 ## License
 
 <!-- TODO: Link to license -->
